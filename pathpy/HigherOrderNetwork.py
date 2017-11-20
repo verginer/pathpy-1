@@ -35,7 +35,7 @@ import scipy.linalg as _la
 import scipy as _sp
 
 import functools as fu
-import pathos as pa
+import multiprocessing as _mp
 
 from pathpy.Log import Log
 from pathpy.Log import Severity
@@ -946,11 +946,11 @@ class HigherOrderNetwork:
         # partially calculate some functions, so that it may be passed to the pool
         partiallyCalculated = fu.partial(HigherOrderNetwork.partialTransitionMatrix, self.nodes, D, includeSubPaths)
 
+        a = 0
         # initializing the processingPool
-        pool = pa.multiprocessing.ProcessingPool(nodes = n_chunks)
-
-        # calculating the elements for the sparse matrix
-        a = pool.amap(partiallyCalculated, dicts).get()
+        with _mp.Pool(n_chunks) as pool:
+            # calculating the elements for the sparse matrix
+            a = pool.map(partiallyCalculated, dicts)
 
         # assigning the correct data to the variables, due to the way the amag().get() returns values
         row = _np.hstack([a[i][0] for i in range(n_chunks)])
