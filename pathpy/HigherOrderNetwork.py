@@ -920,7 +920,7 @@ class HigherOrderNetwork:
         
         edges_length= len(self.edges)
 
-        n_chunks = n_cores
+        n_chunks = self.cores
 
         ### Splits dictionary into roughly equal parts which will be passed on to a worker pool
         def split_dict_equally(input_dict, chunks=n_chunks):
