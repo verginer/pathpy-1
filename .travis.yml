@@ -17,6 +17,8 @@ install:
   - pip install codecov
   - pip install pytest-cov
 
+cache: pip
+
 script:
   - pytest tests --runslow -v --cov=pathpy
   - codecov
