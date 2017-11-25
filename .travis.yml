@@ -1,0 +1,22 @@
+language: python
+
+os:
+  - linux
+
+python:
+#  - "3.2"
+#  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+
+install:
+  - pip install setuptools
+  - pip install -e .
+  - pip install --upgrade -U pytest
+  - pip install codecov
+  - pip install pytest-cov
+
+script:
+  - pytest tests --runslow -v --cov=pathpy
+  - codecov
